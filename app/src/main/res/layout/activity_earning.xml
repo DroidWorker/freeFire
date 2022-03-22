@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/coinValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -48,11 +48,12 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/but_back"
         android:fontFamily="@font/ribeye"
+        android:onClick="onWithdrawClick"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
-        android:text="ВЫВОД АЛМАЗОВ"
+        android:text="ПОДТВЕРДИТЬ ВЫВОД"
         android:textColor="#9F96B3"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +61,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/defaultPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -73,7 +74,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/sellPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -83,7 +84,7 @@
         android:textColor="#9F96B3"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/defaultPrice" />
 
     <TextView
         android:id="@+id/textView7"
@@ -105,7 +106,7 @@
         app:layout_constraintVertical_bias="0.41000003" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextAccountID"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -115,7 +116,8 @@
         android:ems="10"
         android:fontFamily="@font/ribeye"
         android:hint="введите ID аккаунта"
-        android:inputType="textPersonName"
+        android:inputType="number"
+        android:maxLength="9"
         android:padding="10dp"
         android:textColor="#9F96B3"
         android:textColorHint="#51FFFFFF"
@@ -124,7 +126,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/editTextCoinNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -135,15 +137,16 @@
         android:fontFamily="@font/ribeye"
         android:hint="введите количество монет"
         android:inputType="number"
+        android:maxLength="5"
         android:padding="10dp"
         android:textColor="#9F96B3"
         android:textColorHint="#4BFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAccountID" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/textViewAvailable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -151,6 +154,6 @@
         android:text="доступно для вывода 15 монет"
         android:textColor="#9F96B3"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/editTextNumber"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintStart_toStartOf="@+id/editTextCoinNumber"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCoinNumber" />
 </androidx.constraintlayout.widget.ConstraintLayout>
