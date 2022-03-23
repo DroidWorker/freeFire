@@ -12,18 +12,21 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
+import com.kwork.freefire.model.Message;
+import com.kwork.freefire.model.Order;
 
 import java.util.ArrayList;
 
@@ -124,6 +127,8 @@ public class CabinetActivity extends AppCompatActivity {
         tvEdit.setVisibility(View.VISIBLE);
         TextView tvErr = findViewById(R.id.textView10);
         tvErr.setVisibility(View.GONE);
+        ImageButton messages = findViewById(R.id.messages);
+        messages.setVisibility(View.VISIBLE);
         mode = true;
         orders = new ArrayList<>();
         Order o = new Order();
@@ -172,6 +177,61 @@ public class CabinetActivity extends AppCompatActivity {
                 if (wv1.getText().length()>0)
                     myRef.child("waucher").setValue(wv1.getText().toString());
                 dialog.dismiss();
+            }
+        });
+
+        dialog.create();
+        dialog.show();
+    }
+
+    public void onMessagesClick(View view){
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        ArrayList<com.kwork.freefire.model.Message> messages = new ArrayList<>();
+
+        View linearlayout = getLayoutInflater().inflate(R.layout.messages_menu, null);
+        dialog.setView(linearlayout);
+        RecyclerView rv = linearlayout.findViewById(R.id.rvMessages);
+        MessagesAdapter ma = new MessagesAdapter(this, messages);
+        rv.setAdapter(ma);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        messages = loadMessages(ma);
+        dialog.setPositiveButton("ЗАКРЫТЬ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.create();
+        dialog.show();
+    }
+    public void onsendFeedbackClick(View view){
+        database = FirebaseDatabase.getInstance("https://freefire-7e250-default-rtdb.europe-west1.firebasedatabase.app/");
+        myRef = database.getReference().child("feedback");
+
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        View linearlayout = getLayoutInflater().inflate(R.layout.input_dialog, null);
+        dialog.setView(linearlayout);
+        EditText etInput = linearlayout.findViewById(R.id.feedbackField);
+        EditText etEmail = linearlayout.findViewById(R.id.inputEmail);
+        dialog.setPositiveButton("ОТПРАВИТЬ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!etEmail.getText().toString().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")){
+                    Toast.makeText(CabinetActivity.this, "некорректный EMAIl", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                myRef.child(String.valueOf(userID)).child("message").setValue(etInput.getText().toString());
+                myRef.child(String.valueOf(userID)).child("email").setValue(etEmail.getText().toString());
+                Snackbar.make(view, "сообщение отправлено", BaseTransientBottomBar.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        dialog.setNegativeButton("ОТМЕНА", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
             }
         });
 
@@ -231,4 +291,31 @@ public class CabinetActivity extends AppCompatActivity {
         }
     }
 
+    ArrayList<Message> loadMessages(MessagesAdapter ma){
+        ArrayList<Message> messages = new ArrayList<>();
+        database = FirebaseDatabase.getInstance("https://freefire-7e250-default-rtdb.europe-west1.firebasedatabase.app/");
+        myRef = database.getReference();
+        DatabaseReference reffedbk = myRef.child("feedback");
+        reffedbk.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap:snapshot.getChildren()
+                     ) {
+                    Message m = new Message();
+                    m.setUserID(snap.getKey());
+                    m.setMessage(snap.child("message").getValue().toString());
+                    m.setEmail(snap.child("email").getValue().toString());
+                    messages.add(m);
+                    ma.users.add(m);
+                }
+                ma.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return messages;
+    }
 }

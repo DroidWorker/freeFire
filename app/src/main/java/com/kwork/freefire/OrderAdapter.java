@@ -3,7 +3,6 @@ package com.kwork.freefire;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.kwork.freefire.model.Order;
 
 import java.util.List;
 
@@ -48,13 +48,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         holder.status.setText(order.getStatus());
         holder.summ.setText(order.summ);
 
-        holder.root.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                startCheckboxMenu(orders.get(pos).accountID, orders.get(pos).userID, String.valueOf(orders.get(pos).id));
-                return true;
-            }
-        });
+        if (isAdmin)
+            holder.root.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    startCheckboxMenu(orders.get(pos).accountID, orders.get(pos).userID, String.valueOf(orders.get(pos).id));
+                    return true;
+                }
+            });
     }
 
     @Override

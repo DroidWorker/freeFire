@@ -5,12 +5,16 @@
       <map>
         <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/drawable/box_back.xml" value="0.2703125" />
         <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/drawable/but_back.xml" value="0.2703125" />
+        <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/activity_adv_reward.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/activity_cabinet.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/activity_earning.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/checkbox_menu.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/input_dialog.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/list_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/message_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Ilya/Desktop/tz/kwork/freeFire/app/src/main/res/layout/messages_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

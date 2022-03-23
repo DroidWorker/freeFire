@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kwork.freefire.model.Order;
 
 public class EarningActivity extends AppCompatActivity {
     FirebaseDatabase database;
@@ -58,6 +59,10 @@ public class EarningActivity extends AppCompatActivity {
     public void onWithdrawClick(View view){
         EditText etAccountID = findViewById(R.id.editTextAccountID);
         EditText etCoinNumber = findViewById(R.id.editTextCoinNumber);
+        if (coins<Integer.parseInt(etCoinNumber.getText().toString())){
+            Snackbar.make(view, "недостаточно монет", BaseTransientBottomBar.LENGTH_LONG).show();
+            return;
+        }
 
         DatabaseReference loID = myRef.child("lastOrderID");
         loID.addValueEventListener(new ValueEventListener() {
@@ -74,6 +79,7 @@ public class EarningActivity extends AppCompatActivity {
                 order.setStatus(1);
                 order.publish(database.getReference("orders"));
                 database.getReference("lastOrderID").setValue(lastOrderId+1);
+                database.getReference().child("users").child(String.valueOf(userID)).child("coins").setValue(coins-Integer.parseInt(order.summ));
                 Snackbar.make(view, "заявка сформирована", BaseTransientBottomBar.LENGTH_LONG).show();
                 new Thread(new Runnable() {
                     public void run() {

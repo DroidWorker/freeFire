@@ -1,4 +1,4 @@
-package com.kwork.freefire;
+package com.kwork.freefire.model;
 
 import com.google.firebase.database.DatabaseReference;
 

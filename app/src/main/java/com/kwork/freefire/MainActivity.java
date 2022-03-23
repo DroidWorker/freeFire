@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,11 +21,14 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference myRef;
     int lastUserID = 0;
     int coins = -1;
+    boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this);
 
         SharedPreferences mSettings = getSharedPreferences("appcfg", this.MODE_PRIVATE);
         int userID = mSettings.getInt("userID", -1);
@@ -51,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (flag) return;
+                    flag = true;
                     lastUserID = Integer.parseInt(snapshot.child("lastUserID").getValue().toString());
                     myRef.child("users").child(String.valueOf(lastUserID+1)).child("coins").setValue(0);
                     myRef.child("lastUserID").setValue(lastUserID+1);
@@ -72,5 +78,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onCabinetClick(View view){
         startActivity(new Intent(MainActivity.this, CabinetActivity.class));
+    }
+    public void onadvClick(View view){
+        startActivity(new Intent(MainActivity.this, advReward.class));
     }
 }
